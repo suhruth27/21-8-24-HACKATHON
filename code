@@ -1,0 +1,60 @@
+class Kid:
+    def __init__(self, child_name, dob):
+        self.child_name = child_name
+        self.dob = dob
+        self.shots = []
+    
+    def add_shot(self, shot_name, shot_date):
+        self.shots.append((shot_name, shot_date))
+    
+    def display_shot_record(self):
+        print(f"Shot record for {self.child_name}:")
+        for shot, date in self.shots:
+            print(f"{shot} on {date}")
+        if not self.shots:
+            print("No shots recorded yet.")
+    
+class ShotSystem:
+    def __init__(self):
+        self.kids = []
+        self.alerts = []
+    
+    def register_kid(self, child_name, dob):
+        kid = Kid(child_name, dob)
+        self.kids.append(kid)
+        print(f"Child {child_name} registered in the system.")
+    
+    def plan_shot(self, kid_name, shot_name, shot_date):
+        kid = self.find_kid_by_name(kid_name)
+        if kid:
+            kid.add_shot(shot_name, shot_date)
+            self.alerts.append((kid_name, shot_name, shot_date))
+            print(f"Shot {shot_name} planned for {kid_name} on {shot_date}.")
+        else:
+            print(f"No child named {kid_name} found.")
+    
+    def display_alerts(self):
+        print("Upcoming Shot Alerts:")
+        for kid_name, shot_name, shot_date in self.alerts:
+            print(f"Alert: {kid_name} has a {shot_name} shot on {shot_date}.")
+        if not self.alerts:
+            print("No upcoming alerts.")
+    
+    def find_kid_by_name(self, name):
+        for kid in self.kids:
+            if kid.child_name == name:
+                return kid
+        return None
+
+system = ShotSystem()
+
+system.register_kid("vijay singh balbir", "2021-05-10")
+system.register_kid("geetanjali", "2022-02-18")
+
+system.plan_shot("vijay singh balbir", "MMR", "2024-08-25")
+system.plan_shot("geetanjali", "Polio", "2024-08-30")
+
+system.find_kid_by_name("vijay singh balbir").display_shot_record()
+system.find_kid_by_name("geetanjali").display_shot_record()
+
+system.display_alerts()
